@@ -1,8 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import counterReducer from "../features/counter/counterSlice"
+
+import counterReducer from "@/features/counter/counterSlice"
+import { appReducer } from "@/features/app/app.slice"
+import { authReducer } from "@/features/auth/auth.slice"
 
 export const store = configureStore({
   reducer: {
+    app: appReducer,
+    auth: authReducer,
     counter: counterReducer,
   },
 })
@@ -15,3 +20,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+// @ts-ignore
+window.s = store.getState
