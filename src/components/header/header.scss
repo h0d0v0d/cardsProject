@@ -1,0 +1,10 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 136px;
+    border: solid 1px black;
+    .icon{
+        height: 28px;
+        width: 200px;
+    }
+}

@@ -1,8 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 import { createAppAsyncThunk } from "@/common/utilis/create-app-async-thunk"
-import { LoginArgs, RegisterArgs, authAPI } from "./auth.api"
-import { User } from "./auth.api"
+import { LoginArgs, RegisterArgs, authAPI, User } from "./auth.api"
 
 const THUNK_PREFIXES = {
   AUTH: "auth",
@@ -37,6 +36,7 @@ const login = createAppAsyncThunk<{ user: User } | void, LoginArgs>(
 const slice = createSlice({
   name: THUNK_PREFIXES.AUTH,
   initialState: {
+    isAuth: false,
     user: {} as User,
   },
   reducers: {
@@ -48,6 +48,7 @@ const slice = createSlice({
     builder.addCase(login.fulfilled, (state, action: any) => {
       if (action.payload.user) {
         state.user = action.payload.user
+        state.isAuth = true
         console.log(action.payload.user)
       }
     })

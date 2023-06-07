@@ -1,0 +1,1 @@
+const emailValidate = (email: string) => {}

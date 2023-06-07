@@ -1,18 +1,19 @@
 import { LinearProgress, ThemeProvider, createTheme } from "@material-ui/core"
 import { ToastContainer } from "react-toastify"
 import { useEffect } from "react"
-
-import { Counter } from "./features/counter/Counter"
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
-import { ProfilePage } from "./features/profilePage/ProfilePage"
-import { ErrorPage } from "./features/errorPage/ErrorPage"
-import { LoginPage } from "./features/loginPage/LoginPage"
-import { RecoveryAccountPage } from "./features/recoveryAccountPage/RecoveryAccountPage"
-import { NewPasswordPage } from "./features/newPasswordPage/NewPasswordPage"
-import { RegistrationPage } from "./features/registrationPage/RegistrationPage"
-import { TestPage } from "./features/testPage/TestPage"
 
-import { useAppDispatch, useAppSelector } from "./app/hooks"
+import { Header } from "./components/header/Header"
+import { Counter } from "./features/counter/Counter"
+import { ProfilePage } from "./pages/profilePage/ProfilePage"
+import { ErrorPage } from "./pages/errorPage/ErrorPage"
+import { LoginPage } from "./pages/loginPage/LoginPage"
+import { RecoveryAccountPage } from "./pages/recoveryAccountPage/RecoveryAccountPage"
+import { NewPasswordPage } from "./pages/newPasswordPage/NewPasswordPage"
+import { RegistrationPage } from "./pages/registrationPage/RegistrationPage"
+import { TestPage } from "./pages/testPage/TestPage"
+
+import { useAppDispatch, useAppSelector } from "./hooks/hooks"
 import { appActions } from "./features/app/app.slice"
 import { authThunks } from "./features/auth/auth.slice"
 
@@ -21,10 +22,6 @@ import "./App.css"
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Counter />,
-  },
-  {
-    path: "/profile",
     element: <ProfilePage />,
   },
   {
@@ -63,26 +60,9 @@ function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const user = useAppSelector((state) => state.auth.user._id)
   const dispatch = useAppDispatch()
-
-  const login = () => {
-    dispatch(
-      authThunks.login({
-        email: "maksimmarck@gmail.com",
-        password: "gfhn-56hrSk-2vrt6",
-        rememberMe: false,
-      }),
-    )
-  }
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(appActions.setIsLoading({ isLoading: false }))
-    }, 3000)
-  }, [])
   return (
     <ThemeProvider theme={theme}>
-      <button onClick={login}>Login</button>
-      {!user || <h2>Залогинен</h2>}
+      <Header />
       {isLoading && <LinearProgress />}
       <ToastContainer
         position="top-center"
