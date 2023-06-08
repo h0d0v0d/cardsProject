@@ -8,7 +8,7 @@ import { Header } from "./components/header/Header"
 import { ProfilePage } from "./pages/profilePage/ProfilePage"
 import { ErrorPage } from "./pages/errorPage/ErrorPage"
 import { LoginPage } from "./pages/loginPage/LoginPage"
-import { ForgotPassword } from "./pages/forgotPassword/ForgotPassword"
+import { ForgotPasswordPage } from "./pages/forgotPasswordPage/ForgotPasswordPage"
 import { NewPasswordPage } from "./pages/newPasswordPage/NewPasswordPage"
 import { RegistrationPage } from "./pages/registrationPage/RegistrationPage"
 import { TestPage } from "./pages/testPage/TestPage"
@@ -29,10 +29,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/recovery",
-    element: <ForgotPassword />,
+    element: <ForgotPasswordPage />,
   },
   {
-    path: "/new-password",
+    path: "/set-new-password",
     element: <NewPasswordPage />,
   },
   {
@@ -64,13 +64,8 @@ function App() {
   link</a>
   </div>`
   useEffect(() => {
-    dispatch(
-      authThunks.forgotPassword({
-        email: "dkjfsjknf@gmail.com",
-        message: mess,
-        from: "me",
-      }),
-    )
+    console.log("app tsx useEffect")
+    dispatch(authThunks.me({}))
   }, [])
   return (
     <ThemeProvider theme={theme}>

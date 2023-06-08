@@ -1,6 +1,7 @@
 import { FormGroup, TextField } from "@mui/material"
 import React from "react"
 import { useForm } from "react-hook-form"
+import { Navigate } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
@@ -13,10 +14,9 @@ import {
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
+import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 
 import "./registrationPage.scss"
-import { Navigate } from "react-router-dom"
-import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 
 export const RegistrationPage = () => {
   const dispatch = useAppDispatch()
@@ -51,11 +51,11 @@ export const RegistrationPage = () => {
     return <Navigate to="/profile" />
   }
   return (
-    <div className="registrationPage">
-      <Card width="520px">
-        <CardHeader value={"Sign up"} marginBottom="41" />
+    <div className="registration-page">
+      <Card width="413px">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
+            <CardHeader value={"Sign up"} marginBottom="41" />
             <TextField
               error={!!errors.email?.message}
               margin="dense"
@@ -71,7 +71,7 @@ export const RegistrationPage = () => {
               type="password"
               error={!!errors.password?.message}
               helperText={errors.password?.message || " "}
-              id="demo-helper-text-aligned"
+              id="demo-helper-text-aligned_1"
               {...register("password", { validate: passwordValidate })}
             />
             <TextField
@@ -86,16 +86,16 @@ export const RegistrationPage = () => {
                 validate: confirmPasswordValidateHandler,
               })}
             />
+            <button type="submit" disabled={!isValid}>
+              Sign up
+            </button>
+            <CardDescription value="Create new password and we will send you further instructions to email" />
+            <CardFooter
+              text="Already have an account?"
+              linkText="Sign In"
+              path="/login"
+            />
           </FormGroup>
-          <CardDescription value="Create new password and we will send you further instructions to email" />
-          <button type="submit" disabled={!isValid}>
-            Sign up
-          </button>
-          <CardFooter
-            text="Already have an account?"
-            linkText="Sign In"
-            path="/login"
-          />
         </form>
       </Card>
     </div>

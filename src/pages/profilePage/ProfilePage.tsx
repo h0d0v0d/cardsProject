@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom"
 
 export const ProfilePage = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
+  console.log(isAuth)
   if (!isAuth) {
     return <Navigate to={"/login"} />
   }

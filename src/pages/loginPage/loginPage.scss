@@ -1,6 +1,19 @@
-.loginPage{
+.login-page{
     padding-top: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
+    .forgot-password-wrapp{
+        display: flex;
+        justify-content: end;
+        margin-top: 30px;
+        margin-bottom: 70px;
+        a{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            text-align: center;
+            color: #000000;
+        }
+    }
 }

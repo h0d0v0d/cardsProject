@@ -1,13 +1,7 @@
 import React from "react"
 import { useForm } from "react-hook-form"
-import { Navigate } from "react-router-dom"
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  TextField,
-} from "@mui/material"
+import { NavLink, Navigate } from "react-router-dom"
+import { Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material"
 
 import { authThunks } from "../../features/auth/auth.slice"
 import { emailValidate, passwordValidate } from "@/common/utilis/validate"
@@ -45,11 +39,11 @@ export const LoginPage = () => {
     return <Navigate to={"/"} />
   }
   return (
-    <div className="loginPage">
-      <Card width="520px">
-        <CardHeader value="Sign in" />
+    <div className="login-page">
+      <Card width="413px">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
+            <CardHeader value="Sign in" />
             <TextField
               error={!!errors.email?.message}
               margin="dense"
@@ -71,16 +65,26 @@ export const LoginPage = () => {
               label={"Remember me"}
               control={<Checkbox {...register("rememberMe")} />}
             />
+            <div className="forgot-password-wrapp">
+              <NavLink
+                to={"/recovery"}
+                className={({ isActive }) =>
+                  isActive ? "forgot-password active" : "forgot-password"
+                }
+              >
+                Forgot Password?
+              </NavLink>
+            </div>
+            <button type="submit" disabled={!isValid}>
+              Sign in
+            </button>
+            <CardFooter
+              text="Don't have an account?"
+              linkText="Sign Up"
+              path="/registration"
+            />
           </FormGroup>
-          <button type="submit" disabled={!isValid}>
-            Sign in
-          </button>
         </form>
-        <CardFooter
-          text="Don't have an account?"
-          linkText="Sign Up"
-          path="/registration"
-        />
       </Card>
     </div>
   )
