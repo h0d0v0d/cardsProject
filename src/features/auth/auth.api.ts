@@ -4,9 +4,9 @@ export const authAPI = {
   registration: (params: RegisterArgs) =>
     authInstance.post<RegisterResponse>("register", params),
   login: (params: LoginArgs) => authInstance.post<User>("login", params),
-  logout: () => {
-    authInstance.delete("me")
-  },
+  logout: () => authInstance.delete("me"),
+  forgotPassword: (params: ForgotArgs) =>
+    authInstance.post<ForgotResonse>("forgot", params),
 }
 
 // Login
@@ -36,3 +36,15 @@ export type RegisterResponse = {
   addedUser: AddedUser
 }
 export type AddedUser = Omit<User, "token" | "tokenDeathTime">
+
+// Forgot
+export type ForgotArgs = {
+  email: string
+  message: string
+  from?: string
+}
+
+export type ForgotResonse = {
+  info: string
+  error: string
+}

@@ -1,0 +1,22 @@
+.cardFooter{
+    margin-top: 31px;
+    text-align: center;
+    .text{
+        color: #000000;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 24px;
+        opacity: 0.5;
+        margin-bottom: 11px;
+    }
+    .link{
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration-line: underline;
+    color: #366EFF;
+    }
+    .active{
+        color: #7507c3;
+    }
+}

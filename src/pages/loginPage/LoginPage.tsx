@@ -1,21 +1,24 @@
 import React from "react"
-
-import { Card } from "@/components/card/Card"
-import { CardHeader } from "@/components/card/cardHeader/CardHeader"
-import { authThunks } from "../../features/auth/auth.slice"
-
-import "./lofinPage.scss"
-
+import { useForm } from "react-hook-form"
+import { Navigate } from "react-router-dom"
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
+  FormGroup,
   TextField,
 } from "@mui/material"
-import { useForm } from "react-hook-form"
+
+import { authThunks } from "../../features/auth/auth.slice"
+import { emailValidate, passwordValidate } from "@/common/utilis/validate"
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { LoginArgs } from "@/features/auth/auth.api"
-import { Navigate } from "react-router-dom"
+
+import { Card } from "@/components/card/Card"
+import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
+import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
+
+import "./loginPage.scss"
 
 export const LoginPage = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
@@ -43,46 +46,41 @@ export const LoginPage = () => {
   }
   return (
     <div className="loginPage">
-      <Card width="600px">
-        <CardHeader value="Log in" />
+      <Card width="520px">
+        <CardHeader value="Sign in" />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
+          <FormGroup>
             <TextField
               error={!!errors.email?.message}
               margin="dense"
               variant="standard"
               label={"Email"}
-              helperText={errors.email?.message}
-              {...register("email", {
-                required: true,
-                minLength: {
-                  message: "Min length its 10",
-                  value: 10,
-                },
-                pattern:
-                  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i,
-              })}
+              helperText={errors.email?.message || " "}
+              {...register("email", { validate: emailValidate })}
             />
             <TextField
+              error={!!errors.password?.message}
               margin="dense"
               variant="standard"
               label="Password"
               type="password"
-              {...register("password", {
-                required: true,
-                minLength: {
-                  message: "Min length its 10",
-                  value: 10,
-                },
-              })}
+              helperText={errors.password?.message || " "}
+              {...register("password", { validate: passwordValidate })}
             />
             <FormControlLabel
               label={"Remember me"}
               control={<Checkbox {...register("rememberMe")} />}
             />
-            <input type="submit" disabled={!isValid} />
-          </FormControl>
+          </FormGroup>
+          <button type="submit" disabled={!isValid}>
+            Sign in
+          </button>
         </form>
+        <CardFooter
+          text="Don't have an account?"
+          linkText="Sign Up"
+          path="/registration"
+        />
       </Card>
     </div>
   )

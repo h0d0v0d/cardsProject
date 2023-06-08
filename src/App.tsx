@@ -1,23 +1,22 @@
 import { LinearProgress, ThemeProvider, createTheme } from "@material-ui/core"
 import { ToastContainer } from "react-toastify"
-import { useEffect } from "react"
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 
+import { useAppDispatch, useAppSelector } from "./hooks/hooks"
+
 import { Header } from "./components/header/Header"
-import { Counter } from "./features/counter/Counter"
 import { ProfilePage } from "./pages/profilePage/ProfilePage"
 import { ErrorPage } from "./pages/errorPage/ErrorPage"
 import { LoginPage } from "./pages/loginPage/LoginPage"
-import { RecoveryAccountPage } from "./pages/recoveryAccountPage/RecoveryAccountPage"
+import { ForgotPassword } from "./pages/forgotPassword/ForgotPassword"
 import { NewPasswordPage } from "./pages/newPasswordPage/NewPasswordPage"
 import { RegistrationPage } from "./pages/registrationPage/RegistrationPage"
 import { TestPage } from "./pages/testPage/TestPage"
 
-import { useAppDispatch, useAppSelector } from "./hooks/hooks"
-import { appActions } from "./features/app/app.slice"
-import { authThunks } from "./features/auth/auth.slice"
-
+import "./common/styles/null.css"
 import "./App.css"
+import { useEffect } from "react"
+import { authThunks } from "./features/auth/auth.slice"
 
 const router = createBrowserRouter([
   {
@@ -30,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/recovery",
-    element: <RecoveryAccountPage />,
+    element: <ForgotPassword />,
   },
   {
     path: "/new-password",
@@ -58,8 +57,21 @@ const theme = createTheme()
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading)
-  const user = useAppSelector((state) => state.auth.user._id)
   const dispatch = useAppDispatch()
+  const mess: string = `<div style="background-color: lime; padding: 15px">
+  password recovery link: 
+  <a href='http://localhost:3000/#/set-new-password/$token$'>
+  link</a>
+  </div>`
+  useEffect(() => {
+    dispatch(
+      authThunks.forgotPassword({
+        email: "dkjfsjknf@gmail.com",
+        message: mess,
+        from: "me",
+      }),
+    )
+  }, [])
   return (
     <ThemeProvider theme={theme}>
       <Header />

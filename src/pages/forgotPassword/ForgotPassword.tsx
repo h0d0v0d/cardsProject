@@ -1,5 +1,5 @@
 import React from "react"
 
-export const RecoveryAccountPage = () => {
+export const ForgotPassword = () => {
   return <div>RecoveryAccountPage</div>
 }
