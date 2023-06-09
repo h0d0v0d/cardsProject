@@ -1,7 +1,7 @@
 import { FormGroup, TextField } from "@mui/material"
 import React from "react"
 import { useForm } from "react-hook-form"
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
@@ -17,10 +17,11 @@ import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
 import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 
 import "./registrationPage.scss"
+import Button from "@/components/button/Button"
 
 export const RegistrationPage = () => {
   const dispatch = useAppDispatch()
-  const regiter = useAppSelector((state) => state.auth.register)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -35,20 +36,21 @@ export const RegistrationPage = () => {
     },
     mode: "onBlur",
   })
-  const onSubmit = (values: {
+  const onSubmit = (data: {
     email: string
     password: string
     confirmPassword: string
   }) => {
-    const { email, password } = values
+    const { email, password } = data
     dispatch(authThunks.register({ email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("./login")
+      })
     reset()
   }
   const confirmPasswordValidateHandler = (confirmPassword: string) => {
     return confirmPasswordValidate(confirmPassword, watch().password)
-  }
-  if (regiter === "succes") {
-    return <Navigate to="/profile" />
   }
   return (
     <div className="registration-page">
@@ -86,10 +88,9 @@ export const RegistrationPage = () => {
                 validate: confirmPasswordValidateHandler,
               })}
             />
-            <button type="submit" disabled={!isValid}>
+            <Button type="submit" disabled={!isValid}>
               Sign up
-            </button>
-            <CardDescription value="Create new password and we will send you further instructions to email" />
+            </Button>
             <CardFooter
               text="Already have an account?"
               linkText="Sign In"

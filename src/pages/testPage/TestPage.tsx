@@ -1,6 +1,5 @@
 import React from "react"
 
-import SuperButton from "../../components/superButton/SuperButton"
 import SuperCheckbox from "../../components/superCheckbox/SuperCheckbox"
 import SuperInput from "../../components/superInput/SuperInput"
 import SuperRadio from "../../components/superRadio/SuperRadio"
@@ -15,7 +14,6 @@ const options = [
 export const TestPage = () => {
   return (
     <div>
-      <SuperButton />
       <SuperCheckbox />
       <SuperInput />
       <SuperRadio options={options} />

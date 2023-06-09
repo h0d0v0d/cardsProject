@@ -11,6 +11,7 @@ import { LoginArgs } from "@/features/auth/auth.api"
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
+import { Button } from "@/components/button/Button"
 
 import "./loginPage.scss"
 
@@ -20,13 +21,12 @@ export const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
     reset,
   } = useForm({
     defaultValues: {
       email: "maksimmarck@gmail.com",
-      password: "gfhn-56hrSk-2vrt6",
+      password: "gfhn-56hrSk-2vr9",
       rememberMe: false,
     },
     mode: "onBlur",
@@ -67,7 +67,7 @@ export const LoginPage = () => {
             />
             <div className="forgot-password-wrapp">
               <NavLink
-                to={"/recovery"}
+                to={"/forgot-password"}
                 className={({ isActive }) =>
                   isActive ? "forgot-password active" : "forgot-password"
                 }
@@ -75,9 +75,9 @@ export const LoginPage = () => {
                 Forgot Password?
               </NavLink>
             </div>
-            <button type="submit" disabled={!isValid}>
+            <Button type="submit" disabled={!isValid}>
               Sign in
-            </button>
+            </Button>
             <CardFooter
               text="Don't have an account?"
               linkText="Sign Up"

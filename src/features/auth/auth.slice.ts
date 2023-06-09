@@ -1,7 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 import { createAppAsyncThunk } from "@/common/utilis/create-app-async-thunk"
-import { LoginArgs, RegisterArgs, authAPI, User, ForgotArgs } from "./auth.api"
+import {
+  LoginArgs,
+  RegisterArgs,
+  authAPI,
+  User,
+  ForgotArgs,
+  SetNewPasswordArgs,
+  MeResponse,
+} from "./auth.api"
 
 const THUNK_PREFIXES = {
   AUTH: "auth",
@@ -10,21 +18,19 @@ const THUNK_PREFIXES = {
   ME: "auth/me",
   LOGOUT: "auth/logout",
   FORGOT: "auth/forgot",
+  SET_NEW_PASSWORD: "auth/set-new-password",
 }
 
-export type RegisterType = "succes" | "error" | "idle"
-
-const register = createAppAsyncThunk<
-  { register: RegisterType } | void,
-  RegisterArgs
->(THUNK_PREFIXES.REGISTER, async (arg, thunkAPI) => {
-  try {
-    const res = await authAPI.registration(arg)
-    return { register: "succes" }
-  } catch (error) {
-    console.log(error)
-  }
-})
+const register = createAppAsyncThunk<any, RegisterArgs>(
+  THUNK_PREFIXES.REGISTER,
+  async (arg, thunkAPI) => {
+    try {
+      const res = await authAPI.registration(arg)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+)
 
 const login = createAppAsyncThunk<{ user: User } | void, LoginArgs>(
   THUNK_PREFIXES.LOGIN,
@@ -50,23 +56,35 @@ const logout = createAppAsyncThunk<{ isAuth: boolean } | void, {}>(
   },
 )
 
-const me = createAppAsyncThunk<{ isAuth: boolean } | void, {}>(
-  THUNK_PREFIXES.ME,
-  async () => {
+const me = createAppAsyncThunk<
+  { isAuth: boolean; user: MeResponse } | void,
+  {}
+>(THUNK_PREFIXES.ME, async () => {
+  try {
+    const res = await authAPI.me()
+    return { isAuth: true, user: res.data }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+const forgotPassword = createAppAsyncThunk<any, ForgotArgs>(
+  THUNK_PREFIXES.FORGOT,
+  async (args, thunkAPI) => {
     try {
-      const res = await authAPI.me()
-      return { isAuth: true }
+      const res = await authAPI.forgotPassword({ email: args.email })
+      console.log(res)
     } catch (error) {
       console.log(error)
     }
   },
 )
 
-const forgotPassword = createAppAsyncThunk<any, { email: string }>(
-  THUNK_PREFIXES.FORGOT,
+const setNewPassword = createAppAsyncThunk<any, SetNewPasswordArgs>(
+  THUNK_PREFIXES.SET_NEW_PASSWORD,
   async (args, thunkAPI) => {
     try {
-      const res = await authAPI.forgotPassword({ email: args.email })
+      const res = await authAPI.setNewPassword(args)
       console.log(res)
     } catch (error) {
       console.log(error)
@@ -79,7 +97,6 @@ const slice = createSlice({
   initialState: {
     user: {} as User,
     isAuth: false,
-    register: "idle" as RegisterType,
   },
   reducers: {
     setUser: (state, action: PayloadAction<{ user: User }>) => {
@@ -91,11 +108,7 @@ const slice = createSlice({
       if (action.payload.user) {
         state.user = action.payload.user
         state.isAuth = true
-        console.log(action.payload.user)
       }
-    })
-    builder.addCase(register.fulfilled, (state, action: any) => {
-      state.register = action.payload.register
     })
     builder.addCase(logout.fulfilled, (state, action: any) => {
       if (action.payload.isAuth !== undefined) {
@@ -105,6 +118,7 @@ const slice = createSlice({
     builder.addCase(me.fulfilled, (state, action: any) => {
       if (action.payload.isAuth) {
         state.isAuth = action.payload.isAuth
+        state.user = action.payload.user
       }
     })
   },
@@ -112,4 +126,11 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = { register, login, logout, forgotPassword, me }
+export const authThunks = {
+  register,
+  login,
+  logout,
+  forgotPassword,
+  me,
+  setNewPassword,
+}

@@ -2,9 +2,11 @@ import { authInstance } from "./auth.instance"
 
 const message = `<div style="background-color: lime; padding: 15px">
 password recovery link: 
-<a href='127.0.0.1:5173/set-new-password/$token$'>
+<a href='http://127.0.0.1:5173/forgot-password/set-new-password/$token$'>
 link</a>
 </div>`
+
+// const message = `<div style={"box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);\\n" +    "border-radius: 2px; background-color: lime; padding: 15px; width: 300px;"}>password recovery link: <a href='http://localhost:3000/forgotPassword/setNewPassword/$token$'>link</a>`
 
 export const authAPI = {
   registration: (params: RegisterArgs) =>
@@ -17,6 +19,8 @@ export const authAPI = {
       email: params.email,
       message,
     }),
+  setNewPassword: (params: SetNewPasswordArgs) =>
+    authInstance.post<SetNewPasswordResponse>("set-new-password", params),
 }
 
 // Login
@@ -75,5 +79,16 @@ export type MeResponse = {
   isAdmin: boolean
   verified: boolean // подтвердил ли почту
   rememberMe: boolean
+  error?: string
+}
+
+// SetNewPassword
+export type SetNewPasswordArgs = {
+  password: string
+  resetPasswordToken: string
+}
+
+type SetNewPasswordResponse = {
+  info: string
   error?: string
 }

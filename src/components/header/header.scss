@@ -7,4 +7,22 @@
         height: 28px;
         width: 200px;
     }
+    .user-info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .name{
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            text-decoration: underline;
+            margin: 0 12px 0 0;
+        }
+        .photo{
+            width: 36px;
+            height: 36px;
+            border: solid 1px black;
+        }
+    }
 }
