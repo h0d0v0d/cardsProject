@@ -6,21 +6,29 @@ password recovery link:
 link</a>
 </div>`
 
-// const message = `<div style={"box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);\\n" +    "border-radius: 2px; background-color: lime; padding: 15px; width: 300px;"}>password recovery link: <a href='http://localhost:3000/forgotPassword/setNewPassword/$token$'>link</a>`
-
 export const authAPI = {
-  registration: (params: RegisterArgs) =>
-    authInstance.post<RegisterResponse>("register", params),
-  login: (params: LoginArgs) => authInstance.post<User>("login", params),
-  logout: () => authInstance.delete<LogoutResponse>("me"),
-  me: () => authInstance.post<MeResponse>("me"),
-  forgotPassword: (params: ForgotArgs) =>
-    authInstance.post<ForgotResonse>("forgot", {
-      email: params.email,
-      message,
-    }),
-  setNewPassword: (params: SetNewPasswordArgs) =>
-    authInstance.post<SetNewPasswordResponse>("set-new-password", params),
+  registration: (params: RegisterArgs) => {
+    return authInstance.post<RegisterResponse>("register", params)
+  },
+  login: (params: LoginArgs) => {
+    return authInstance.post<User>("login", params)
+  },
+  logout: () => {
+    return authInstance.delete<LogoutResponse>("me")
+  },
+  me: () => {
+    return authInstance.post<MeResponse>("me")
+  },
+  forgotPassword: (params: ForgotArgs) => {
+    const { email } = params
+    return authInstance.post<ForgotResonse>("forgot", { email, message })
+  },
+  newPassword: (params: SetNewPasswordArgs) => {
+    return authInstance.post<SetNewPasswordResponse>("set-new-password", params)
+  },
+  setUserData: (params: SetUserDataArgs) => {
+    return authInstance.put<SetUserDataResponse>("me", params)
+  },
 }
 
 // Login
@@ -37,6 +45,7 @@ export type User = {
   __v: number
   token: string
   tokenDeathTime: number
+  avatar?: string
 }
 export type LoginArgs = {
   email: string
@@ -46,10 +55,10 @@ export type LoginArgs = {
 
 // Register
 export type RegisterArgs = Pick<LoginArgs, "email" | "password">
+export type AddedUser = Omit<User, "token" | "tokenDeathTime">
 export type RegisterResponse = {
   addedUser: AddedUser
 }
-export type AddedUser = Omit<User, "token" | "tokenDeathTime">
 
 // Forgot
 export type ForgotArgs = {
@@ -73,11 +82,11 @@ export type MeResponse = {
   email: string
   name: string
   avatar?: string
-  publicCardPacksCount: number // количество колод
+  publicCardPacksCount: number
   created: Date
   updated: Date
   isAdmin: boolean
-  verified: boolean // подтвердил ли почту
+  verified: boolean
   rememberMe: boolean
   error?: string
 }
@@ -90,5 +99,16 @@ export type SetNewPasswordArgs = {
 
 type SetNewPasswordResponse = {
   info: string
+  error?: string
+}
+
+// SetNewName
+export type SetUserDataArgs = {
+  name?: string
+  avatar?: string
+}
+
+export type SetUserDataResponse = {
+  updatedUser: User
   error?: string
 }

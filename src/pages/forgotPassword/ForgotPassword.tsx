@@ -12,10 +12,10 @@ import { CardDescription } from "@/components/card/common/cardDescription/CardDe
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
 import { Button } from "@/components/button/Button"
 
-import "./forgotPasswordPage.scss"
+import "./forgotPassword.scss"
 import { Navigate, useNavigate } from "react-router-dom"
 
-export const ForgotPasswordPage = () => {
+export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {

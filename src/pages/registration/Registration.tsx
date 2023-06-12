@@ -1,9 +1,9 @@
 import { FormGroup, TextField } from "@mui/material"
 import React from "react"
 import { useForm } from "react-hook-form"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useAppDispatch } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 import {
   confirmPasswordValidate,
@@ -14,12 +14,12 @@ import {
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
-import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 
-import "./registrationPage.scss"
 import Button from "@/components/button/Button"
 
-export const RegistrationPage = () => {
+import "./registration.scss"
+
+export const Registration = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
@@ -45,8 +45,12 @@ export const RegistrationPage = () => {
     dispatch(authThunks.register({ email, password }))
       .unwrap()
       .then(() => {
-        navigate("./login")
-      })
+        navigate("/login")
+        console.log("good")
+      }) /* 
+      .catch(() => {
+        navigate("/registration")
+      }) */
     reset()
   }
   const confirmPasswordValidateHandler = (confirmPassword: string) => {

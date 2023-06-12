@@ -2,13 +2,13 @@ import React from "react"
 
 import { Card } from "@/components/card/Card"
 
-import "./checkEmailPage.scss"
+import "./checkEmail.scss"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 import Button from "@/components/button/Button"
 import { NavLink } from "react-router-dom"
 
-export const CheckEmailPage = () => {
+export const CheckEmail = () => {
   return (
     <div className="check-email-page">
       <Card width="413px">

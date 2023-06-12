@@ -1,144 +1,77 @@
-import { useEffect } from "react"
-import { LinearProgress, ThemeProvider, createTheme } from "@material-ui/core"
-import { ToastContainer } from "react-toastify"
+import { ThemeProvider, createTheme } from "@material-ui/core"
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
+import { Provider } from "react-redux"
 
-import { authThunks } from "./features/auth/auth.slice"
-import { useAppDispatch, useAppSelector } from "./hooks/hooks"
+import { store } from "./app/store"
+import { Profile } from "./pages/profile/Profile"
+import { Error } from "./pages/error/Error"
+import { Login } from "./pages/login/Login"
+import { ForgotPassword } from "./pages/forgotPassword/ForgotPassword"
+import { SetNewPassword } from "./pages/forgotPassword/setNewPassword/SetNewPassword"
+import { CheckEmail } from "./pages/forgotPassword/checkEmail/CheckEmail"
+import { Registration } from "./pages/registration/Registration"
+import { Layout } from "./components/layout/Layout"
 
-import { Header } from "./components/header/Header"
-import { ProfilePage } from "./pages/profilePage/ProfilePage"
-import { ErrorPage } from "./pages/errorPage/ErrorPage"
-import { LoginPage } from "./pages/loginPage/LoginPage"
-import { ForgotPasswordPage } from "./pages/forgotPasswordPage/ForgotPasswordPage"
-import { SetNewPasswordPage } from "./pages/forgotPasswordPage/setNewPasswordPage/SetNewPasswordPage"
-import { CheckEmailPage } from "./pages/forgotPasswordPage/checkEmailPage/CheckEmailPage"
-import { RegistrationPage } from "./pages/registrationPage/RegistrationPage"
-import { TestPage } from "./pages/testPage/TestPage"
-
+import "react-toastify/dist/ReactToastify.css"
 import "./common/styles/null.css"
 import "./App.css"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProfilePage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: "/forgot-password/set-new-password/:token",
-    element: <SetNewPasswordPage />,
-  },
-  {
-    path: "/forgot-password/check-email",
-    element: <CheckEmailPage />,
-  },
-  {
-    path: "/registration",
-    element: <RegistrationPage />,
-  },
-  {
-    path: "/test",
-    element: <TestPage />,
-  },
-  {
-    path: "/error",
-    element: <ErrorPage />,
-  },
-  {
-    path: "*",
-    element: <Navigate to="/error" />,
-  },
-])
-
-const theme = createTheme()
-
-function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading)
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(authThunks.me({}))
-  }, [])
-  return (
-    <ThemeProvider theme={theme}>
-      <Header />
-      {isLoading && <LinearProgress />}
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  )
-}
-
-export default App
-
-/* const routerr = createBrowserRouter([
-  {
-    path: "/",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
-        element: <Navigate to="profile" />,
-      },
-      { path: "register", element: <Register /> },
-      {
-        path: "login",
-        element: <Login />,
+        element: <Navigate to={"profile"} />,
       },
       {
         path: "profile",
         element: <Profile />,
       },
       {
-        path: "forgotPassword",
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "forgot-password",
         element: <ForgotPassword />,
       },
       {
-        path: "forgotPassword/setNewPassword/:token",
+        path: "forgot-password/set-new-password/:token",
         element: <SetNewPassword />,
       },
       {
-        path: "forgotPassword/checkEmail",
+        path: "forgot-password/check-email",
         element: <CheckEmail />,
       },
       {
-        path: "cards",
-        element: <Cards />,
+        path: "registration",
+        element: <Registration />,
       },
       {
-        path: "learn",
-        element: <Learn />,
-      },
-      {
-        path: "packs",
-        element: <Packs />,
-      },
-      {
-        path: "404",
-        element: <Error404 />,
+        path: "error",
+        element: <Error />,
       },
       {
         path: "*",
-        element: <Navigate to="404" />,
+        element: <Navigate to="/error" />,
       },
     ],
   },
-]) */
+])
+
+const theme = createTheme()
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </ThemeProvider>
+  )
+}
+
+export default App

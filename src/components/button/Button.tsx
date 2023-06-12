@@ -1,8 +1,5 @@
-import React, {
-  ButtonHTMLAttributes,
-  DetailedHTMLProps,
-  PropsWithChildren,
-} from "react"
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
+import "./button.scss"
 
 type DefaultButtonPropsType = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -26,9 +23,8 @@ export const Button: React.FC<ButtonPropsType> = ({
     width,
     height,
     borderRadius,
-    color: "white",
   }
-  return <button {...restProps} style={styles} />
+  return <button className="button" {...restProps} style={styles} />
 }
 
 export default Button

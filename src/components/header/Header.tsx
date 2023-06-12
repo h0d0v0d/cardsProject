@@ -3,6 +3,7 @@ import React from "react"
 import "./header.scss"
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
+import { useNavigate } from "react-router-dom"
 
 export const Header = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
@@ -14,21 +15,27 @@ export const Header = () => {
   return (
     <div className="header">
       <div className="icon">it-incubator</div>
-      {isAuth && <UserInfo name={user.name} />}
+      {isAuth && <UserInfo name={user.name} avatar={user.avatar} />}
     </div>
   )
 }
 
-type UserInfo = {
+type UserInfoPropsType = {
   name: string
-  photoURL?: string
+  avatar?: string
 }
 
-const UserInfo: React.FC<UserInfo> = ({ name, photoURL }) => {
+const UserInfo: React.FC<UserInfoPropsType> = ({ name, avatar }) => {
+  const navigate = useNavigate()
+  const redirectToLogin = () => {
+    navigate("profile")
+  }
   return (
-    <div className="user-info">
+    <div className="user-info" onClick={redirectToLogin}>
       <h2 className="name">{name}</h2>
-      <div className="photo"></div>
+      <div className="photo">
+        <img src={avatar} />
+      </div>
     </div>
   )
 }

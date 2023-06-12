@@ -7,14 +7,15 @@ import { passwordValidate } from "@/common/utilis/validate"
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 
-import "./setNewPasswordPage.scss"
 import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
 import Button from "@/components/button/Button"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 
-export const SetNewPasswordPage = () => {
+import "./setNewPassword.scss"
+
+export const SetNewPassword = () => {
   const dispatch = useAppDispatch()
   const params = useParams()
   const navigate = useNavigate()

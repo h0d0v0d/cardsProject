@@ -13,9 +13,9 @@ import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
 import { Button } from "@/components/button/Button"
 
-import "./loginPage.scss"
+import "./login.scss"
 
-export const LoginPage = () => {
+export const Login = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const dispatch = useAppDispatch()
   const {
@@ -26,7 +26,7 @@ export const LoginPage = () => {
   } = useForm({
     defaultValues: {
       email: "maksimmarck@gmail.com",
-      password: "gfhn-56hrSk-2vr9",
+      password: "gfhn-56hrSk-2vr10",
       rememberMe: false,
     },
     mode: "onBlur",
