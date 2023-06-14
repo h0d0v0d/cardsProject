@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react"
 import TextField from "@mui/material/TextField"
 
 import "./editableSpan.scss"
-import Button from "../button/Button"
+import { Button } from "../button/Button"
 
 type EditableSpanPropsType = {
   value: string

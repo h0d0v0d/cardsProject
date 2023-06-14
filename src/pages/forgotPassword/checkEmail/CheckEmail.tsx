@@ -1,12 +1,12 @@
 import React from "react"
+import { NavLink } from "react-router-dom"
 
 import { Card } from "@/components/card/Card"
-
-import "./checkEmail.scss"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
-import Button from "@/components/button/Button"
-import { NavLink } from "react-router-dom"
+import { Button } from "@/components/button/Button"
+
+import "./checkEmail.scss"
 
 export const CheckEmail = () => {
   return (

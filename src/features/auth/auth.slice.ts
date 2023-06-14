@@ -10,6 +10,7 @@ import {
   ForgotArgs,
   SetNewPasswordArgs,
   SetUserDataArgs,
+  MeResponse,
 } from "./auth.api"
 
 const THUNK_PREFIXES = {
@@ -23,16 +24,17 @@ const THUNK_PREFIXES = {
   SET_USER_DATA: "auth/set-user-data",
 }
 
-const register = createAppAsyncThunk<any, RegisterArgs>(
+const register = createAppAsyncThunk<unknown, RegisterArgs>(
   THUNK_PREFIXES.REGISTER,
   async (arg, thunkAPI) => {
-    thunkTryCatch(thunkAPI, async () => {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.registration(arg)
     })
   },
 )
 
-const login = createAppAsyncThunk<any, LoginArgs>(
+type LoginPayload = { user: User }
+const login = createAppAsyncThunk<LoginPayload, LoginArgs>(
   THUNK_PREFIXES.LOGIN,
   async (args, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
@@ -42,57 +44,56 @@ const login = createAppAsyncThunk<any, LoginArgs>(
   },
 )
 
-const logout = createAppAsyncThunk<any, {}>(THUNK_PREFIXES.LOGOUT, async () => {
-  try {
-    const res = await authAPI.logout()
-    return { isAuth: false }
-  } catch (error) {
-    console.log(error)
-  }
-})
+const logout = createAppAsyncThunk<unknown, unknown>(
+  THUNK_PREFIXES.LOGOUT,
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authAPI.logout()
+    })
+  },
+)
 
-const me = createAppAsyncThunk<any, any>(THUNK_PREFIXES.ME, async () => {
-  try {
-    const res = await authAPI.me()
-    return { isAuth: true, user: res.data }
-  } catch (error) {
-    console.log(error)
-  }
-})
+type MePayload = { user: MeResponse }
+const me = createAppAsyncThunk<MePayload, unknown>(
+  THUNK_PREFIXES.ME,
+  async (args, thunkAPI) => {
+    return thunkTryCatch(
+      thunkAPI,
+      async () => {
+        const res = await authAPI.me()
+        return { user: res.data }
+      },
+      { showGlobalError: false },
+    )
+  },
+)
 
-const forgotPassword = createAppAsyncThunk<any, ForgotArgs>(
+const forgotPassword = createAppAsyncThunk<unknown, ForgotArgs>(
   THUNK_PREFIXES.FORGOT,
   async (args, thunkAPI) => {
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.forgotPassword({ email: args.email })
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
+    })
   },
 )
 
-const setNewPassword = createAppAsyncThunk<any, SetNewPasswordArgs>(
+const setNewPassword = createAppAsyncThunk<unknown, SetNewPasswordArgs>(
   THUNK_PREFIXES.SET_NEW_PASSWORD,
   async (args, thunkAPI) => {
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.newPassword(args)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
+    })
   },
 )
 
-const setUserData = createAppAsyncThunk<any, SetUserDataArgs>(
+type SetUserDataPayload = { updateUser: User }
+const setUserData = createAppAsyncThunk<SetUserDataPayload, SetUserDataArgs>(
   THUNK_PREFIXES.SET_USER_DATA,
-  async (args) => {
-    try {
+  async (args, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.setUserData(args)
-      return { newUser: res.data.updatedUser }
-    } catch (error) {
-      console.log(error)
-    }
+      return { updateUser: res.data.updatedUser }
+    })
   },
 )
 
@@ -100,7 +101,7 @@ const slice = createSlice({
   name: THUNK_PREFIXES.AUTH,
   initialState: {
     user: {} as User,
-    isAuth: false,
+    isAuth: null as boolean | null,
   },
   reducers: {
     setUser: (state, action: PayloadAction<{ user: User }>) => {
@@ -108,33 +109,35 @@ const slice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(login.rejected, (state, action: any) => {
-      if (action.payload.user) {
+    builder
+      .addCase(
+        login.fulfilled,
+        (state, action: PayloadAction<LoginPayload>) => {
+          state.user = action.payload.user
+          state.isAuth = true
+        },
+      )
+      .addCase(logout.fulfilled, (state, action: any) => {
+        state.isAuth = false
+        state.user = {} as User
+      })
+      .addCase(me.fulfilled, (state, action: PayloadAction<MePayload>) => {
         state.user = action.payload.user
         state.isAuth = true
-      }
-    })
-    builder.addCase(logout.fulfilled, (state, action: any) => {
-      if (action.payload.isAuth !== undefined) {
-        state.isAuth = action.payload.isAuth
-      }
-    })
-    builder.addCase(me.fulfilled, (state, action: any) => {
-      if (action.payload.isAuth) {
-        state.isAuth = action.payload.isAuth
-        state.user = action.payload.user
-      }
-    })
-    builder.addCase(setUserData.fulfilled, (state, action: any) => {
-      if (action.payload.newUser) {
-        state.user = action.payload.newUser
-      }
-    })
+      })
+      .addCase(me.rejected, (state, action: any) => {
+        state.isAuth = false
+      })
+      .addCase(
+        setUserData.fulfilled,
+        (state, action: PayloadAction<SetUserDataPayload>) => {
+          state.user = action.payload.updateUser
+        },
+      )
   },
 })
 
 export const authReducer = slice.reducer
-export const authActions = slice.actions
 export const authThunks = {
   register,
   login,

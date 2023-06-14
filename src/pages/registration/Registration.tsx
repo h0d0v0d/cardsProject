@@ -15,7 +15,7 @@ import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
 
-import Button from "@/components/button/Button"
+import { Button } from "@/components/button/Button"
 
 import "./registration.scss"
 
@@ -47,10 +47,7 @@ export const Registration = () => {
       .then(() => {
         navigate("/login")
         console.log("good")
-      }) /* 
-      .catch(() => {
-        navigate("/registration")
-      }) */
+      })
     reset()
   }
   const confirmPasswordValidateHandler = (confirmPassword: string) => {

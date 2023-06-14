@@ -1,11 +1,12 @@
 import React from "react"
 import { useForm } from "react-hook-form"
-import { NavLink, Navigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material"
+import { toast } from "react-toastify"
 
 import { authThunks } from "../../features/auth/auth.slice"
 import { emailValidate, passwordValidate } from "@/common/utilis/validate"
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useAppDispatch } from "@/hooks/hooks"
 import { LoginArgs } from "@/features/auth/auth.api"
 
 import { Card } from "@/components/card/Card"
@@ -16,8 +17,8 @@ import { Button } from "@/components/button/Button"
 import "./login.scss"
 
 export const Login = () => {
-  const isAuth = useAppSelector((state) => state.auth.isAuth)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -26,17 +27,22 @@ export const Login = () => {
   } = useForm({
     defaultValues: {
       email: "maksimmarck@gmail.com",
-      password: "gfhn-56hrSk-2vr10",
+      password: "gfhn-56hrSk-2vr11",
       rememberMe: false,
     },
     mode: "onBlur",
   })
   const onSubmit = (data: LoginArgs) => {
     dispatch(authThunks.login(data))
+      .unwrap()
+      .then(() => {
+        navigate("/profile")
+        toast.success("Successful login")
+      })
+      .catch(() => {
+        navigate("/error")
+      })
     reset()
-  }
-  if (isAuth) {
-    return <Navigate to={"/"} />
   }
   return (
     <div className="login-page">

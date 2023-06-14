@@ -26,5 +26,3 @@ export const Button: React.FC<ButtonPropsType> = ({
   }
   return <button className="button" {...restProps} style={styles} />
 }
-
-export default Button

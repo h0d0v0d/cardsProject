@@ -1,17 +1,16 @@
 import React from "react"
 import { useForm } from "react-hook-form"
 import { FormGroup, TextField } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { passwordValidate } from "@/common/utilis/validate"
+import { useAppDispatch } from "@/hooks/hooks"
+import { authThunks } from "@/features/auth/auth.slice"
 
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
-
 import { CardDescription } from "@/components/card/common/cardDescription/CardDescription"
-import Button from "@/components/button/Button"
-import { useNavigate, useParams } from "react-router-dom"
-import { useAppDispatch } from "@/hooks/hooks"
-import { authThunks } from "@/features/auth/auth.slice"
+import { Button } from "@/components/button/Button"
 
 import "./setNewPassword.scss"
 

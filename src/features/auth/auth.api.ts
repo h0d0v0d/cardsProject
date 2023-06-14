@@ -42,11 +42,12 @@ export type User = {
   publicCardPacksCount: number
   created: string
   updated: string
-  __v: number
-  token: string
-  tokenDeathTime: number
+  __v?: number
+  token?: string
+  tokenDeathTime?: number
   avatar?: string
 }
+
 export type LoginArgs = {
   email: string
   password: string
@@ -77,17 +78,8 @@ export type LogoutResponse = {
 }
 
 // Me
-export type MeResponse = {
-  _id: string
-  email: string
-  name: string
-  avatar?: string
-  publicCardPacksCount: number
-  created: Date
-  updated: Date
-  isAdmin: boolean
-  verified: boolean
-  rememberMe: boolean
+
+export type MeResponse = Omit<User, "__v" | "token" | "tokenDeathTime"> & {
   error?: string
 }
 

@@ -3,6 +3,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Provider } from "react-redux"
 
 import { store } from "./app/store"
+
 import { Profile } from "./pages/profile/Profile"
 import { Error } from "./pages/error/Error"
 import { Login } from "./pages/login/Login"
