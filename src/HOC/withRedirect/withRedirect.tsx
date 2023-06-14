@@ -9,8 +9,9 @@ export function withRedirect<T>(BaseComponent: FC<T>): FC<T> {
     const isAuth = useAppSelector((state) => state.auth.isAuth)
     const navigate = useNavigate()
     useEffect(() => {
+      if (isAuth === null) return
       if (isAuth === false) {
-        navigate("/login")
+        return navigate("/login")
       }
     }, [isAuth, navigate])
 

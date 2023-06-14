@@ -1,0 +1,28 @@
+.toogle-button{
+    h2{
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+    }
+    .toogle-button-group{
+        display: flex;
+        .toogle-button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 36px;
+            border: solid 1px rgb(178, 167, 167);
+            border-radius: 0px 2px 2px 0px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .active{
+            background-color: #366EFF;
+            border: solid 1px #366EFF;
+            color: white;
+        }
+    }
+}

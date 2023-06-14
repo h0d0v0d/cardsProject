@@ -8,6 +8,8 @@ import { authThunks } from "@/features/auth/auth.slice"
 
 import { Header } from "../header/Header"
 
+import "./layout.scss"
+
 export const Layout: React.FC = () => {
   const loading = useAppSelector((state) => state.app.isLoading)
   const dispatch = useAppDispatch()

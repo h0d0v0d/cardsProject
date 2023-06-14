@@ -1,4 +1,4 @@
-import { ThemeProvider, createTheme } from "@material-ui/core"
+import { ThemeProvider, createTheme } from "@mui/material"
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Provider } from "react-redux"
 
@@ -12,6 +12,7 @@ import { SetNewPassword } from "./pages/forgotPassword/setNewPassword/SetNewPass
 import { CheckEmail } from "./pages/forgotPassword/checkEmail/CheckEmail"
 import { Registration } from "./pages/registration/Registration"
 import { Layout } from "./components/layout/Layout"
+import { Packs } from "./pages/packs/Packs"
 
 import "react-toastify/dist/ReactToastify.css"
 import "./common/styles/null.css"
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Navigate to={"profile"} />,
+      },
+      {
+        path: "/packs",
+        element: <Packs />,
       },
       {
         path: "profile",
