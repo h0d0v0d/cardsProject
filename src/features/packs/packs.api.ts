@@ -2,7 +2,9 @@ import { packsInstanse } from "./packs.instanse"
 
 export const packsApi = {
   getPacks: (args: GetPacksArgs) => {
-    return packsInstanse.get<GetPacksResponse>("", { params: args })
+    return packsInstanse.get<GetPacksResponse>("", {
+      params: args,
+    })
   },
   createPack: (args: CreatePackArgs) => {
     return packsInstanse.post<CreatePackResponse>("", { cardsPack: args })
@@ -15,17 +17,27 @@ export const packsApi = {
   },
 }
 
-type Pack = {
+export type Pack = {
   _id: string
   user_id: string
+  user_name: string
   name: string
+  private: boolean
+  path: string
+  grade: number
+  shots: number
   cardsCount: number
+  deckCover?: any
+  type: string
+  rating: number
+  more_id: string
   created: string
   updated: string
+  __v: number
 }
 
 // Get Packs
-type GetPacksArgs = {
+export type GetPacksArgs = {
   packName?: string
   min?: number
   max?: number
@@ -38,7 +50,6 @@ type GetPacksArgs = {
 type GetPacksResponse = {
   cardPacks: Pack[]
   cardPacksTotalCount: number
-  // количество колод
   maxCardsCount: number
   minCardsCount: number
   page: number

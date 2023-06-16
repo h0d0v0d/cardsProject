@@ -2,17 +2,36 @@ import * as React from "react"
 import Box from "@mui/material/Box"
 import Slider from "@mui/material/Slider"
 
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+
 import "./range.scss"
+import { packsActions } from "@/features/packs/packs.slice"
 
 function valuetext(value: number) {
   return `${value}°C`
 }
 
-export const Range = () => {
-  const [value, setValue] = React.useState<number[]>([20, 37])
+type RangeProps = {
+  minCardsCount: number
+  maxCardsCount: number
+}
+
+export const Range: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const { minCardsCount, maxCardsCount } = useAppSelector(
+    (state) => state.pack.meta,
+  )
+  const { min, max } = useAppSelector((state) => state.pack.searchParams)
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[])
+    /* if (Array.isArray(newValue)) {
+      dispatch(
+        packsActions.editSearchParams({
+          min: newValue[0],
+          max: newValue[1],
+        }),
+      )
+    } */
   }
 
   return (
@@ -20,12 +39,12 @@ export const Range = () => {
       <h2>Number of cards</h2>
       <div className="slider-wrapp">
         <div className="value-wrapper">
-          <span>{value[0]}</span>
+          <span>{minCardsCount}</span>
         </div>
         <Box sx={{ width: 155 }}>
           <Slider
             getAriaLabel={() => "Temperature range"}
-            value={value}
+            value={[min || 10, max || 40]}
             onChange={handleChange}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}
@@ -33,7 +52,7 @@ export const Range = () => {
           />
         </Box>
         <div className="value-wrapper">
-          <span>{value[1]}</span>
+          <span>{maxCardsCount}</span>
         </div>
       </div>
     </div>

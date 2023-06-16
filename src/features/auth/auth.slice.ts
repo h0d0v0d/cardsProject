@@ -117,7 +117,7 @@ const slice = createSlice({
           state.isAuth = true
         },
       )
-      .addCase(logout.fulfilled, (state, action: any) => {
+      .addCase(logout.fulfilled, (state) => {
         state.isAuth = false
         state.user = {} as User
       })
@@ -125,7 +125,7 @@ const slice = createSlice({
         state.user = action.payload.user
         state.isAuth = true
       })
-      .addCase(me.rejected, (state, action: any) => {
+      .addCase(me.rejected, (state) => {
         state.isAuth = false
       })
       .addCase(

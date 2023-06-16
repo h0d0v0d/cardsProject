@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { SearchInput } from "./common/searchInput/SearchInput"
 import { Range } from "./common/range/Range"

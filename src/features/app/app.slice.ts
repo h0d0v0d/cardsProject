@@ -8,7 +8,6 @@ const slice = createSlice({
   initialState: {
     error: null as string | null,
     isLoading: false,
-    isAppInitialized: false,
     unhandledActions: [] as string[],
   },
   reducers: {
