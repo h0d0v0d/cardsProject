@@ -1,0 +1,16 @@
+.input{
+    
+}
+
+.standard{
+    width: 350px;
+    height: 30px;
+    color: red;
+    border: none;
+    border-bottom: solid 1px grey;
+    outline: none;
+}
+
+.standard:focus{
+    color: green
+}
