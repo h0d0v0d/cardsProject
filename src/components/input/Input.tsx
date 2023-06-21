@@ -9,7 +9,11 @@ type InputProps = {
 }
 
 const Input: React.FC<InputProps> = ({ variant, ...restProps }) => {
-  return <input type="text" style={restProps} className={variant} />
+  return (
+    <input type="text" style={restProps} className={variant}>
+      <label htmlFor="">njnjhb</label>
+    </input>
+  )
 }
 
 export default Input

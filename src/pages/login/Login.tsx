@@ -36,7 +36,7 @@ export const Login = () => {
     dispatch(authThunks.login(data))
       .unwrap()
       .then(() => {
-        navigate("/profile")
+        navigate("/packs")
         toast.success("Successful login")
       })
       .catch(() => {

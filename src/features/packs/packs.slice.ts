@@ -7,6 +7,7 @@ enum PACKS_PREFIXES {
   PACKS = "packs",
   GET_PACKS = "packs/get-packs",
   EDIT_PAGE = "packs/edit-page",
+  EDIT_USER_ID = "packs/edit-user-id",
 }
 
 type GetPacksPayload = {
@@ -22,13 +23,27 @@ const getPacks = createAppAsyncThunk<GetPacksPayload, GetPacksArgs>(
   async (args, thunkApi) => {
     return thunkTryCatch(thunkApi, async () => {
       const searchParams = thunkApi.getState().pack.searchParams
-      console.log(searchParams)
       const res = await packsApi.getPacks(searchParams)
       const { cardPacks, ...meta } = res.data
       return {
         packs: cardPacks,
-        meta: meta,
+        meta,
       }
+    })
+  },
+)
+
+type EditUserIdPayload = { user_id: string | undefined }
+type EditUserIdArgs = { packsList: "all" | "my" }
+const editUserId = createAppAsyncThunk<EditUserIdPayload, EditUserIdArgs>(
+  PACKS_PREFIXES.EDIT_USER_ID,
+  async (args, thunkApi) => {
+    return thunkTryCatch(thunkApi, async () => {
+      if (args.packsList === "my") {
+        const user_id = thunkApi.getState().auth.user._id
+        return { user_id }
+      }
+      return { user_id: undefined }
     })
   },
 )
@@ -39,11 +54,11 @@ const slice = createSlice({
     packsData: [] as any[],
     searchParams: {
       packName: undefined as string | undefined,
-      min: 0,
-      max: 40,
+      min: 0 as number | undefined,
+      max: 10 as number | undefined,
       sortPacks: undefined as string | undefined,
-      page: 1,
-      pageCount: 8,
+      page: 1 as number | undefined,
+      pageCount: 8 as number | undefined,
       user_id: undefined as string | undefined,
     } as GetPacksArgs,
     meta: {
@@ -62,28 +77,43 @@ const slice = createSlice({
     ) => {
       state.searchParams.packName = action.payload.newPackName
     },
-    editSearchParams: (
+    editMinMax: (
       state,
       action: PayloadAction<{
-        paramsName: string
-        paramsValue: string | undefined
+        min: number | undefined
+        max: number | undefined
       }>,
     ) => {
-      // @ts-ignore
-      state.searchParams[action.payload.paramsName] = action.payload.paramsValue
+      state.searchParams.min = action.payload.min
+      state.searchParams.max = action.payload.max
+    },
+    resetSearchParams: (state) => {
+      state.searchParams.user_id = undefined
+      state.searchParams.packName = undefined
+      state.searchParams.max = undefined
+      state.searchParams.min = undefined
     },
   },
   extraReducers(builder) {
-    builder.addCase(
-      getPacks.fulfilled,
-      (state, action: PayloadAction<GetPacksPayload>) => {
-        state.packsData = action.payload.packs
-        state.meta = action.payload.meta
-      },
-    )
+    builder
+      .addCase(
+        getPacks.fulfilled,
+        (state, action: PayloadAction<GetPacksPayload>) => {
+          state.packsData = action.payload.packs
+          state.meta = action.payload.meta
+          state.searchParams.min = action.payload.meta.minCardsCount
+          state.searchParams.max = action.payload.meta.maxCardsCount
+        },
+      )
+      .addCase(
+        editUserId.fulfilled,
+        (state, action: PayloadAction<EditUserIdPayload>) => {
+          state.searchParams.user_id = action.payload.user_id
+        },
+      )
   },
 })
 
 export const packsReducer = slice.reducer
 export const packsActions = slice.actions
-export const packsThunks = { getPacks }
+export const packsThunks = { getPacks, editUserId }

@@ -1,58 +1,59 @@
 import * as React from "react"
+import { useEffect, useState } from "react"
 import Box from "@mui/material/Box"
 import Slider from "@mui/material/Slider"
+import { useDebounce } from "use-debounce"
 
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
-
-import "./range.scss"
 import { packsActions } from "@/features/packs/packs.slice"
 
-function valuetext(value: number) {
-  return `${value}°C`
-}
-
-type RangeProps = {
-  minCardsCount: number
-  maxCardsCount: number
-}
+import "./range.scss"
 
 export const Range: React.FC = () => {
-  const dispatch = useAppDispatch()
   const { minCardsCount, maxCardsCount } = useAppSelector(
     (state) => state.pack.meta,
   )
   const { min, max } = useAppSelector((state) => state.pack.searchParams)
+  const [values, setValues] = useState<number[]>([
+    min || minCardsCount,
+    max || maxCardsCount,
+  ])
+  const [debonucesValue] = useDebounce<number[]>(values, 1500)
+  const dispatch = useAppDispatch()
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    /* if (Array.isArray(newValue)) {
-      dispatch(
-        packsActions.editSearchParams({
-          min: newValue[0],
-          max: newValue[1],
-        }),
-      )
-    } */
+    if (Array.isArray(newValue)) {
+      setValues(newValue)
+    }
   }
+
+  useEffect(() => {
+    dispatch(
+      packsActions.editMinMax({
+        min: debonucesValue[0],
+        max: debonucesValue[1],
+      }),
+    )
+  }, [debonucesValue])
 
   return (
     <div className="range">
       <h2>Number of cards</h2>
       <div className="slider-wrapp">
         <div className="value-wrapper">
-          <span>{minCardsCount}</span>
+          <span>{values[0]}</span>
         </div>
         <Box sx={{ width: 155 }}>
           <Slider
             getAriaLabel={() => "Temperature range"}
-            value={[min || 10, max || 40]}
+            value={values}
             onChange={handleChange}
             valueLabelDisplay="auto"
-            getAriaValueText={valuetext}
-            max={90}
+            max={maxCardsCount}
           />
         </Box>
         <div className="value-wrapper">
-          <span>{maxCardsCount}</span>
+          <span>{values[1]}</span>
         </div>
       </div>
     </div>

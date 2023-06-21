@@ -1,14 +1,17 @@
 .input{
-    
+
 }
 
 .standard{
     width: 350px;
-    height: 30px;
     color: red;
     border: none;
     border-bottom: solid 1px grey;
     outline: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .standard:focus{

@@ -1,37 +1,21 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
-import { packsActions } from "@/features/packs/packs.slice"
+import { useAppDispatch } from "@/hooks/hooks"
+import { packsThunks } from "@/features/packs/packs.slice"
 
 import "./toogleButton.scss"
 
 export const ToggleButtons = () => {
   const [alignment, setAlignment] = useState<"my" | "all">("all")
   const dispatch = useAppDispatch()
-  const user_id = useAppSelector((state) => state.auth.user._id)
 
   const getButtonClass = (flag: string): string => {
     return `toogle-button ${alignment === flag ? "active" : null}`
   }
 
   useEffect(() => {
-    console.log("render")
-    if (alignment === "my") {
-      dispatch(
-        packsActions.editSearchParams({
-          paramsName: "user_id",
-          paramsValue: "648211c5015a684d395ebf5b",
-        }),
-      )
-      return
-    }
-    dispatch(
-      packsActions.editSearchParams({
-        paramsName: "user_id",
-        paramsValue: undefined,
-      }),
-    )
+    dispatch(packsThunks.editUserId({ packsList: alignment }))
   }, [alignment])
 
   return (
