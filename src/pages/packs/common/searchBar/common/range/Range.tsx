@@ -4,7 +4,7 @@ import Box from "@mui/material/Box"
 import Slider from "@mui/material/Slider"
 import { useDebounce } from "use-debounce"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
 
 import "./range.scss"

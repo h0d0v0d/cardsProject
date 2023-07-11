@@ -6,7 +6,7 @@ import { ToggleButtons } from "./common/toogleButton/ToogleButton"
 import { Button } from "@/components/button/Button"
 
 import "./searchBar.scss"
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
 
 export const SearchBar = () => {

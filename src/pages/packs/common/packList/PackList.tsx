@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 
 import { Pack } from "@/features/packs/packs.api"
-import { useAppSelector } from "@/hooks/hooks"
+import { useAppSelector } from "@/common/hooks"
 
 import "./packList.scss"
 

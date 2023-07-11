@@ -1,17 +1,13 @@
 import React from "react"
 
-import "./header.scss"
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
-import { authThunks } from "@/features/auth/auth.slice"
+import { useAppSelector } from "@/common/hooks"
 import { useNavigate } from "react-router-dom"
+
+import "./header.scss"
 
 export const Header = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const user = useAppSelector((state) => state.auth.user)
-  const dispatch = useAppDispatch()
-  const logout = () => {
-    dispatch(authThunks.logout({}))
-  }
   return (
     <div className="header">
       <div className="icon">it-incubator</div>

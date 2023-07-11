@@ -1,9 +1,9 @@
-import { FormGroup, TextField } from "@mui/material"
 import React from "react"
+import { FormGroup, TextField } from "@mui/material"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 import {
   confirmPasswordValidate,

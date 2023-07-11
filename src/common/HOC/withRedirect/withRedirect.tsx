@@ -1,8 +1,9 @@
-import { useAppSelector } from "@/hooks/hooks"
 import { FC, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-import Loader from "../../components/loader/Loader"
+import { useAppSelector } from "@/common/hooks"
+
+import Loader from "../../../components/loader/Loader"
 
 export function withRedirect<T>(BaseComponent: FC<T>): FC<T> {
   return (props: any) => {

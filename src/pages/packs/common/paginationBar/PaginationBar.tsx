@@ -1,7 +1,7 @@
 import React from "react"
 import { Pagination } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
 
 export const PaginationBar = () => {

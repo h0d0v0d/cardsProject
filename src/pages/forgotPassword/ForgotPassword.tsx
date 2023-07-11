@@ -3,7 +3,7 @@ import { FormGroup, TextField } from "@mui/material"
 import { useForm } from "react-hook-form"
 
 import { emailValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 
 import { Card } from "@/components/card/Card"

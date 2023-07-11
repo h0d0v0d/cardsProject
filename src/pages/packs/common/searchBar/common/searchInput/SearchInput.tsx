@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react"
 import { useDebounce } from "use-debounce"
 import { TextField } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
 
 import "./searchInput.scss"

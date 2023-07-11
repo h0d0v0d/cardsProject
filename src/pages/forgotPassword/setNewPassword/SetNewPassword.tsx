@@ -4,7 +4,7 @@ import { FormGroup, TextField } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { passwordValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 
 import { Card } from "@/components/card/Card"

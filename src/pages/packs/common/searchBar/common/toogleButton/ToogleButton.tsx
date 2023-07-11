@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { packsThunks } from "@/features/packs/packs.slice"
 
 import "./toogleButton.scss"

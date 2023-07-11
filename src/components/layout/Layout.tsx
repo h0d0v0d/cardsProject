@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom"
 import { Toast } from "../toast/Toast"
 import LinearProgress from "@mui/material/LinearProgress"
 
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 
 import { Header } from "../header/Header"
 

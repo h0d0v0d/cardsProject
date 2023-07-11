@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 
 import { authThunks } from "../../features/auth/auth.slice"
 import { emailValidate, passwordValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch } from "@/common/hooks"
 import { LoginArgs } from "@/features/auth/auth.api"
 
 import { Card } from "@/components/card/Card"

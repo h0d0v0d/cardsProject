@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import React from "react"
 
-import { withRedirect } from "@/HOC/withRedirect/withRedirect"
+import { withRedirect } from "@/common/HOC/withRedirect/withRedirect"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
