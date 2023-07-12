@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper"
 
 import { Pack } from "@/features/packs/packs.api"
 import { useAppSelector } from "@/common/hooks"
+import { packsSelectors } from "@/features/packs/packs.selectors"
 
 import "./packList.scss"
 
@@ -24,7 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }))
 
 export const PackList = () => {
-  const packsData: Pack[] = useAppSelector((state) => state.pack.packsData)
+  const packsData: Pack[] = useAppSelector(packsSelectors.selectPacksData)
   React.useEffect(() => {}, [packsData])
   return (
     <div className="pack-list">

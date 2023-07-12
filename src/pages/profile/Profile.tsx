@@ -2,6 +2,7 @@ import React from "react"
 
 import { withRedirect } from "@/common/HOC/withRedirect/withRedirect"
 import { useActions, useAppSelector } from "@/common/hooks"
+import { authSelectors } from "@/features/auth/auth.selectors"
 
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
@@ -13,7 +14,7 @@ import { EditableSpan } from "@/components/editableSpan/EditableSpan"
 import "./profilePage.scss"
 
 export const Profile = withRedirect(() => {
-  const user = useAppSelector((state) => state.auth.user)
+  const user = useAppSelector(authSelectors.selectUser)
   const { logout, setUserData } = useActions(authThunks)
   const logoutHandler = () => {
     logout()

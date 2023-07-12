@@ -4,17 +4,18 @@ import { useEffect } from "react"
 import { withRedirect } from "@/common/HOC/withRedirect/withRedirect"
 import { useActions, useAppSelector } from "@/common/hooks"
 import { packsThunks } from "@/features/packs/packs.slice"
+import { packsSelectors } from "@/features/packs/packs.selectors"
 
-import { AddNewPack } from "./common/addNewPack/AddNewPack"
-import { SearchBar } from "./common/searchBar/SearchBar"
-import { PackList } from "./common/packList/PackList"
-import { PaginationBar } from "./common/paginationBar/PaginationBar"
+import { AddNewPack } from "../../components/addNewPack/AddNewPack"
+import { SearchBar } from "../../components/searchBar/SearchBar"
+import { PackList } from "../../components/packList/PackList"
+import { PaginationBar } from "../../components/paginationBar/PaginationBar"
 
 import "./packs.scss"
 
 export const Packs = withRedirect(() => {
   const { getPacks } = useActions(packsThunks)
-  const searchParams = useAppSelector((state) => state.pack.searchParams)
+  const searchParams = useAppSelector(packsSelectors.selectSearchParams)
   useEffect(() => {
     getPacks()
   }, [searchParams])

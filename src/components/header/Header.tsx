@@ -1,13 +1,14 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 import { useAppSelector } from "@/common/hooks"
-import { useNavigate } from "react-router-dom"
+import { authSelectors } from "@/features/auth/auth.selectors"
 
 import "./header.scss"
 
 export const Header = () => {
-  const isAuth = useAppSelector((state) => state.auth.isAuth)
-  const user = useAppSelector((state) => state.auth.user)
+  const isAuth = useAppSelector(authSelectors.selectIsAuth)
+  const user = useAppSelector(authSelectors.selectUser)
   return (
     <div className="header">
       <div className="icon">it-incubator</div>

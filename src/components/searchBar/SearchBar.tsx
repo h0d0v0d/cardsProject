@@ -1,18 +1,19 @@
 import React from "react"
 
+import { useActions } from "@/common/hooks"
+import { packsActions } from "@/features/packs/packs.slice"
+
 import { SearchInput } from "./common/searchInput/SearchInput"
 import { Range } from "./common/range/Range"
 import { ToggleButtons } from "./common/toogleButton/ToogleButton"
 import { Button } from "@/components/button/Button"
 
 import "./searchBar.scss"
-import { useAppDispatch } from "@/common/hooks"
-import { packsActions } from "@/features/packs/packs.slice"
 
 export const SearchBar = () => {
-  const dispatch = useAppDispatch()
+  const { resetSearchParams } = useActions(packsActions)
   const reserSearchBar = () => {
-    dispatch(packsActions.resetSearchParams())
+    resetSearchParams()
   }
   return (
     <div className="search-bar">

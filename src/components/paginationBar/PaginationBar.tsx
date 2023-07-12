@@ -1,17 +1,18 @@
 import React from "react"
 import { Pagination } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import { useActions, useAppSelector } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
+import { packsSelectors } from "@/features/packs/packs.selectors"
 
 export const PaginationBar = () => {
-  const page = useAppSelector((state) => state.pack.searchParams.page)
+  const page = useAppSelector(packsSelectors.selectPage)
   const cardPacksTotalCount = useAppSelector(
-    (state) => state.pack.meta.cardPacksTotalCount,
+    packsSelectors.selectCardPacksTotalCount,
   )
-  const dispatch = useAppDispatch()
+  const { editPage } = useActions(packsActions)
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    dispatch(packsActions.editPage({ newPage: value }))
+    editPage({ newPage: value })
   }
   return (
     <Pagination

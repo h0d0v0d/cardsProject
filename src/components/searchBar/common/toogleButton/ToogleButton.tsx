@@ -1,21 +1,21 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 
-import { useAppDispatch } from "@/common/hooks"
+import { useActions } from "@/common/hooks"
 import { packsThunks } from "@/features/packs/packs.slice"
 
 import "./toogleButton.scss"
 
 export const ToggleButtons = () => {
   const [alignment, setAlignment] = useState<"my" | "all">("all")
-  const dispatch = useAppDispatch()
+  const { editUserId } = useActions(packsThunks)
 
   const getButtonClass = (flag: string): string => {
     return `toogle-button ${alignment === flag ? "active" : null}`
   }
 
   useEffect(() => {
-    dispatch(packsThunks.editUserId({ packsList: alignment }))
+    editUserId({ packsList: alignment })
   }, [alignment])
 
   return (

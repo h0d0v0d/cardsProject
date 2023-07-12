@@ -2,23 +2,23 @@ import React, { ChangeEvent, useEffect, useState } from "react"
 import { useDebounce } from "use-debounce"
 import { TextField } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "@/common/hooks"
+import { useActions, useAppSelector } from "@/common/hooks"
 import { packsActions } from "@/features/packs/packs.slice"
+
+import { packsSelectors } from "@/features/packs/packs.selectors"
 
 import "./searchInput.scss"
 
 export const SearchInput = () => {
-  const packName = useAppSelector((state) => state.pack.searchParams.packName)
-  const dispatch = useAppDispatch()
+  const packName = useAppSelector(packsSelectors.selectSearchParamsPackName)
+  const { editPackName } = useActions(packsActions)
   const [value, setValue] = useState(packName)
   const [debonusedValue] = useDebounce(value, 1000)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value)
   }
   useEffect(() => {
-    dispatch(
-      packsActions.editPackName({ newPackName: debonusedValue || undefined }),
-    )
+    editPackName({ newPackName: debonusedValue || undefined })
   }, [debonusedValue])
   return (
     <div className="search-input">
