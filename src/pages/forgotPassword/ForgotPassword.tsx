@@ -1,9 +1,10 @@
 import React from "react"
 import { FormGroup, TextField } from "@mui/material"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 
 import { emailValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/common/hooks"
+import { useActions } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 
 import { Card } from "@/components/card/Card"
@@ -13,10 +14,9 @@ import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
 import { Button } from "@/components/button/Button"
 
 import "./forgotPassword.scss"
-import { Navigate, useNavigate } from "react-router-dom"
 
 export const ForgotPassword = () => {
-  const dispatch = useAppDispatch()
+  const { forgotPassword } = useActions(authThunks)
   const navigate = useNavigate()
   const {
     handleSubmit,
@@ -31,7 +31,7 @@ export const ForgotPassword = () => {
   })
   const onSubmit = (values: { email: string }) => {
     console.log("submit")
-    dispatch(authThunks.forgotPassword({ email: values.email }))
+    forgotPassword({ email: values.email })
       .unwrap()
       .then(() => {
         navigate("/forgot-password/check-email")

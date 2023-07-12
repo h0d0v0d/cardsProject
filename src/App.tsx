@@ -15,7 +15,6 @@ import { Registration } from "./pages/registration/Registration"
 import { Layout } from "./components/layout/Layout"
 import { Packs } from "./pages/packs/Packs"
 
-import "react-toastify/dist/ReactToastify.css"
 import "./common/styles/null.css"
 import "./App.css"
 

@@ -3,7 +3,7 @@ import { FormGroup, TextField } from "@mui/material"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 
-import { useAppDispatch } from "@/common/hooks"
+import { useActions } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 import {
   confirmPasswordValidate,
@@ -14,20 +14,18 @@ import {
 import { Card } from "@/components/card/Card"
 import { CardHeader } from "@/components/card/common/cardHeader/CardHeader"
 import { CardFooter } from "@/components/card/common/cardFooter/CardFooter"
-
 import { Button } from "@/components/button/Button"
 
 import "./registration.scss"
 
 export const Registration = () => {
-  const dispatch = useAppDispatch()
+  const { register: registration } = useActions(authThunks)
   const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     watch,
-    reset,
   } = useForm({
     defaultValues: {
       email: "",
@@ -42,13 +40,11 @@ export const Registration = () => {
     confirmPassword: string
   }) => {
     const { email, password } = data
-    dispatch(authThunks.register({ email, password }))
+    registration({ email, password })
       .unwrap()
       .then(() => {
         navigate("/login")
-        console.log("good")
       })
-    reset()
   }
   const confirmPasswordValidateHandler = (confirmPassword: string) => {
     return confirmPasswordValidate(confirmPassword, watch().password)

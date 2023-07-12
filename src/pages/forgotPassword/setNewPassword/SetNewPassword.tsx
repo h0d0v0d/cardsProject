@@ -4,7 +4,7 @@ import { FormGroup, TextField } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { passwordValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/common/hooks"
+import { useActions } from "@/common/hooks"
 import { authThunks } from "@/features/auth/auth.slice"
 
 import { Card } from "@/components/card/Card"
@@ -15,7 +15,7 @@ import { Button } from "@/components/button/Button"
 import "./setNewPassword.scss"
 
 export const SetNewPassword = () => {
-  const dispatch = useAppDispatch()
+  const { setNewPassword } = useActions(authThunks)
   const params = useParams()
   const navigate = useNavigate()
   const {
@@ -31,12 +31,10 @@ export const SetNewPassword = () => {
   })
   const onSubmit = (data: { password: string }) => {
     if (params.token) {
-      dispatch(
-        authThunks.setNewPassword({
-          password: data.password,
-          resetPasswordToken: params.token,
-        }),
-      )
+      setNewPassword({
+        password: data.password,
+        resetPasswordToken: params.token,
+      })
         .unwrap()
         .then(() => {
           navigate("/login")

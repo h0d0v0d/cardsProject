@@ -43,10 +43,9 @@ const slice = createSlice({
         (state, action) => {
           const { showGlobalError, error } = action.payload
           state.isLoading = false
-          if (!showGlobalError) {
-            return
+          if (showGlobalError) {
+            toast.error(getErorMessage(error))
           }
-          toast.error(getErorMessage(error))
         },
       )
     builder.addDefaultCase((state, action: any) => {

@@ -12,6 +12,7 @@ import {
   SetUserDataArgs,
   MeResponse,
 } from "./auth.api"
+import { toast } from "react-toastify"
 
 const THUNK_PREFIXES = {
   AUTH: "auth",
@@ -39,12 +40,13 @@ const login = createAppAsyncThunk<LoginPayload, LoginArgs>(
   async (args, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.login(args)
+      toast.success("Successful login", { autoClose: 3000 })
       return { user: res.data }
     })
   },
 )
 
-const logout = createAppAsyncThunk<unknown, unknown>(
+const logout = createAppAsyncThunk(
   THUNK_PREFIXES.LOGOUT,
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
@@ -54,7 +56,7 @@ const logout = createAppAsyncThunk<unknown, unknown>(
 )
 
 type MePayload = { user: MeResponse }
-const me = createAppAsyncThunk<MePayload, unknown>(
+const me = createAppAsyncThunk<MePayload>(
   THUNK_PREFIXES.ME,
   async (args, thunkAPI) => {
     return thunkTryCatch(

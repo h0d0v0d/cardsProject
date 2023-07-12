@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 
 import { authThunks } from "../../features/auth/auth.slice"
 import { emailValidate, passwordValidate } from "@/common/utilis/validate"
-import { useAppDispatch } from "@/common/hooks"
+import { useActions } from "@/common/hooks"
 import { LoginArgs } from "@/features/auth/auth.api"
 
 import { Card } from "@/components/card/Card"
@@ -17,7 +17,7 @@ import { Button } from "@/components/button/Button"
 import "./login.scss"
 
 export const Login = () => {
-  const dispatch = useAppDispatch()
+  const { login } = useActions(authThunks)
   const navigate = useNavigate()
   const {
     register,
@@ -33,11 +33,10 @@ export const Login = () => {
     mode: "onBlur",
   })
   const onSubmit = (data: LoginArgs) => {
-    dispatch(authThunks.login(data))
+    login(data)
       .unwrap()
       .then(() => {
         navigate("/packs")
-        toast.success("Successful login")
       })
       .catch(() => {
         navigate("/error")

@@ -18,7 +18,7 @@ type GetPacksPayload = {
     maxCardsCount: number
   }
 }
-const getPacks = createAppAsyncThunk<GetPacksPayload, GetPacksArgs>(
+const getPacks = createAppAsyncThunk<GetPacksPayload>(
   PACKS_PREFIXES.GET_PACKS,
   async (args, thunkApi) => {
     return thunkTryCatch(thunkApi, async () => {
